@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicRingBuffer", "MagicRingBuffer\MagicRingBuffer.csproj", "{0C7CA8FE-6145-4E63-A307-939E149D2C1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicRingBuffer.Sample", "MagicRingBuffer.Sample\MagicRingBuffer.Sample.csproj", "{8414A752-097E-4C99-95C2-09DBB4CC8AED}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0C7CA8FE-6145-4E63-A307-939E149D2C1C} = {0C7CA8FE-6145-4E63-A307-939E149D2C1C}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicRingBuffer.Tests", "MagicRingBuffer.Tests\MagicRingBuffer.Tests.csproj", "{96443257-95FC-4602-8F63-53020784B138}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C7CA8FE-6145-4E63-A307-939E149D2C1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C7CA8FE-6145-4E63-A307-939E149D2C1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C7CA8FE-6145-4E63-A307-939E149D2C1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C7CA8FE-6145-4E63-A307-939E149D2C1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8414A752-097E-4C99-95C2-09DBB4CC8AED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8414A752-097E-4C99-95C2-09DBB4CC8AED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8414A752-097E-4C99-95C2-09DBB4CC8AED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8414A752-097E-4C99-95C2-09DBB4CC8AED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96443257-95FC-4602-8F63-53020784B138}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96443257-95FC-4602-8F63-53020784B138}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96443257-95FC-4602-8F63-53020784B138}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96443257-95FC-4602-8F63-53020784B138}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Magic Ring Buffer</Title>
+    <Version>1.1.0</Version>
+    <Authors>Artem Elkin</Authors>
+    <Company />
+    <Product>MagicRingBuffer</Product>
+    <Description>Fast ring (circular) buffer based on mapping the underlying memory segment to two contiguous regions of virtual memory.</Description>
+    <PackageProjectUrl>https://github.com/artelk/MagicRingBuffer</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>ring-buffer;circular-buffer;buffer;fast;zero-copy</PackageTags>
+    <AssemblyVersion></AssemblyVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>False</IncludeSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+  </ItemGroup>
+
+</Project>
