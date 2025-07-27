@@ -1,3 +1,5 @@
+[![NuGet](https://img.shields.io/nuget/v/MagicRingBuffer)](https://www.nuget.org/packages/MagicRingBuffer)
+
 # MagicRingBuffer
 Fast ring (circular) buffer based on mapping the underlying memory segment to two contiguous regions of virtual memory.
 Implemented for Windows and Linux platforms.
