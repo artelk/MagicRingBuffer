@@ -13,19 +13,10 @@ namespace MagicRingBuffer
 
         static RingBuffer()
         {
-            switch (PlatformInfo.OS)
-            {
-                case OSKind.Windows:
-                    AllocationGranularity = Windows.AllocationGranularity;
-                    break;
-                case OSKind.Linux:
-                    AllocationGranularity = Linux.AllocationGranularity;
-                    break;
-                default:
-                    break;
-            }
+            AllocationGranularity = PlatformInfo.IsWindows
+                ? Windows.AllocationGranularity
+                : (uint)Environment.SystemPageSize;
         }
-
     }
 
     public readonly struct RingBuffer<T> : IDisposable
@@ -123,18 +114,9 @@ namespace MagicRingBuffer
                 Throw.ArgumentOutOfRange(nameof(size), size, "Too long buffer");
 
             _size = (uint)size;
-            switch (PlatformInfo.OS)
-            {
-                case OSKind.Windows:
-                    _addr = (T*)Windows.Alloc((uint)bufferByteSize);
-                    break;
-                case OSKind.Linux:
-                    _addr = (T*)Linux.Alloc((uint)bufferByteSize);
-                    break;
-                default:
-                    Throw.NotSupported();
-                    break;
-            }
+            _addr = PlatformInfo.IsWindows
+                ? (T*)Windows.Alloc((uint)bufferByteSize)
+                : (T*)UnixLike.Alloc((uint)bufferByteSize);
         }
 
         public uint Size
@@ -235,18 +217,10 @@ namespace MagicRingBuffer
         protected override void Dispose(bool disposing)
         {
             if (_addr == (byte*)0) return;
-
-            switch (PlatformInfo.OS)
-            {
-                case OSKind.Windows:
-                    Windows.Free((byte*)_addr, _size * (uint)sizeof(T));
-                    break;
-                case OSKind.Linux:
-                    Linux.Free((byte*)_addr, _size * (uint)sizeof(T));
-                    break;
-                default:
-                    break;
-            }
+            if (PlatformInfo.IsWindows)
+                Windows.Free((byte*)_addr, _size * (uint)sizeof(T));
+            else
+                UnixLike.Free((byte*)_addr, _size * (uint)sizeof(T));
 
             _addr = (T*)0;
         }

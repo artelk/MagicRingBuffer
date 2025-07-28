@@ -4,6 +4,11 @@
     {
         private RingBuffer<uint> buf;
 
+        static Tests()
+        {
+            Console.Error.WriteLine($"AllocationGranularity = {RingBuffer.AllocationGranularity}");
+        }
+
         [SetUp]
         public void Setup()
         {
