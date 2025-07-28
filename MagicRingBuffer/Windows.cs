@@ -11,8 +11,40 @@ namespace MagicRingBuffer
         static Windows()
         {
             if (!PlatformInfo.IsWindows) return;
-            GetSystemInfo(out var info);
-            AllocationGranularity = info.AllocationGranularity;
+
+            // that is probably undocumented but Windows may support one page granularity
+            if (Test((uint)Environment.SystemPageSize))
+            {
+                AllocationGranularity = (uint)Environment.SystemPageSize;
+            }
+            else
+            {
+                GetSystemInfo(out var info);
+                AllocationGranularity = info.AllocationGranularity;
+            }
+        }
+
+        private static bool Test(uint len)
+        {
+            try
+            {
+                var ptr = Alloc(len);
+                try
+                {
+                    if (*ptr != *(ptr + len)) return false;
+                    (*ptr)++;
+                    if (*ptr != *(ptr + len)) return false;
+                }
+                finally
+                {
+                    Free(ptr, len);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public static byte* Alloc(uint len)
@@ -110,7 +142,7 @@ namespace MagicRingBuffer
         private const uint PAGE_READWRITE = 0x04;
 
         [DllImport("Kernelbase", SetLastError = true)]
-        static extern byte* VirtualAlloc2(
+        private static extern byte* VirtualAlloc2(
             IntPtr handle,
             byte* baseAddress,
             IntPtr size,
@@ -120,10 +152,10 @@ namespace MagicRingBuffer
             uint parameterCount);
 
         [DllImport("kernel32", SetLastError = true)]
-        static extern int VirtualFree(byte* addr, IntPtr len, uint freeType);
+        private static extern int VirtualFree(byte* addr, IntPtr len, uint freeType);
 
         [DllImport("kernel32", SetLastError = true)]
-        static extern IntPtr CreateFileMappingA(
+        private static extern IntPtr CreateFileMappingA(
             IntPtr hFile,
             void* lpFileMappingAttributes,
             uint flProtect,
@@ -132,7 +164,7 @@ namespace MagicRingBuffer
             byte* lpName);
 
         [DllImport("Kernelbase", SetLastError = true)]
-        static extern byte* MapViewOfFile3(
+        private static extern byte* MapViewOfFile3(
             IntPtr fileMapping,
             IntPtr process,
             byte* baseAddress,
@@ -144,27 +176,27 @@ namespace MagicRingBuffer
             uint parameterCount);
 
         [DllImport("kernel32", SetLastError = true)]
-        static extern int CloseHandle(IntPtr hObject);
+        private static extern int CloseHandle(IntPtr hObject);
 
         [DllImport("kernel32", SetLastError = true)]
-        static extern int UnmapViewOfFile(byte* baseAddress);
+        private static extern int UnmapViewOfFile(byte* baseAddress);
 
         [DllImport("kernel32.dll")]
-        static extern void GetSystemInfo(out SystemInfo systemInfo);
+        private static extern void GetSystemInfo(out SystemInfo systemInfo);
 
         [StructLayout(LayoutKind.Sequential)]
-        struct SystemInfo
+        private struct SystemInfo
         {
-            public ProcessorArchitecture ProcessorArchitecture; // WORD
-            public uint PageSize; // DWORD
-            public IntPtr MinimumApplicationAddress; // (long)void*
-            public IntPtr MaximumApplicationAddress; // (long)void*
-            public IntPtr ActiveProcessorMask; // DWORD*
-            public uint NumberOfProcessors; // DWORD (WTF)
-            public uint ProcessorType; // DWORD
-            public uint AllocationGranularity; // DWORD
-            public ushort ProcessorLevel; // WORD
-            public ushort ProcessorRevision; // WORD
+            public ProcessorArchitecture ProcessorArchitecture;
+            public uint PageSize;
+            public IntPtr MinimumApplicationAddress;
+            public IntPtr MaximumApplicationAddress;
+            public IntPtr ActiveProcessorMask;
+            public uint NumberOfProcessors;
+            public uint ProcessorType;
+            public uint AllocationGranularity;
+            public ushort ProcessorLevel;
+            public ushort ProcessorRevision;
         }
     }
 }

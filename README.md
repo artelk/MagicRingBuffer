@@ -2,7 +2,7 @@
 
 # MagicRingBuffer
 Fast ring (circular) buffer based on mapping the underlying memory segment to two contiguous regions of virtual memory.
-Implemented for Windows and Linux platforms.
+Tested on Windows, Linux and macOS platforms.
 
 Explanation of how it works:
 * https://fgiesen.wordpress.com/2012/07/21/the-magic-ring-buffer/
