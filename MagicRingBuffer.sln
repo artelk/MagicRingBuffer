@@ -12,6 +12,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicRingBuffer.Sample", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicRingBuffer.Tests", "MagicRingBuffer.Tests\MagicRingBuffer.Tests.csproj", "{96443257-95FC-4602-8F63-53020784B138}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicRingBuffer.Benchmark", "MagicRingBuffer.Benchmark\MagicRingBuffer.Benchmark.csproj", "{1A12A137-BDFC-48DC-9B2B-31BF78735D76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicRingBuffer.CreateFillDisposeLoop", "MagicRingBuffer.CreateFillDisposeLoop\MagicRingBuffer.CreateFillDisposeLoop.csproj", "{FF897777-75E2-4686-8AD7-1648541F5F85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +34,14 @@ Global
 		{96443257-95FC-4602-8F63-53020784B138}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96443257-95FC-4602-8F63-53020784B138}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96443257-95FC-4602-8F63-53020784B138}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A12A137-BDFC-48DC-9B2B-31BF78735D76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A12A137-BDFC-48DC-9B2B-31BF78735D76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A12A137-BDFC-48DC-9B2B-31BF78735D76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A12A137-BDFC-48DC-9B2B-31BF78735D76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF897777-75E2-4686-8AD7-1648541F5F85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF897777-75E2-4686-8AD7-1648541F5F85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF897777-75E2-4686-8AD7-1648541F5F85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF897777-75E2-4686-8AD7-1648541F5F85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

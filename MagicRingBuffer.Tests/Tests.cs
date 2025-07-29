@@ -12,7 +12,7 @@
         [SetUp]
         public void Setup()
         {
-            buf = new RingBuffer<uint>(1024);
+            buf = new RingBuffer<uint>(16 * 1024);
         }
 
         [TearDown]

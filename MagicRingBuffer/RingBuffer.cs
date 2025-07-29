@@ -22,6 +22,12 @@ namespace MagicRingBuffer
     public readonly struct RingBuffer<T> : IDisposable
         where T : unmanaged
     {
+        public static uint AllocationGranularity
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => RingBufferMemoryManager<T>.AllocationGranularity;
+        }
+
         private readonly RingBufferMemoryManager<T> impl;
 
         /// <summary>
@@ -90,7 +96,7 @@ namespace MagicRingBuffer
     internal sealed unsafe class RingBufferMemoryManager<T> : MemoryManager<T>, IDisposable
         where T : unmanaged
     {
-        private static readonly ulong AllocationGranularity;
+        public static uint AllocationGranularity { get; }
         private T* _addr;
         private readonly uint _size;
         private uint _readerPos;
@@ -98,7 +104,8 @@ namespace MagicRingBuffer
 
         static RingBufferMemoryManager()
         {
-            AllocationGranularity = Lcm(RingBuffer.AllocationGranularity, (uint)sizeof(T));
+            var size = Lcm(RingBuffer.AllocationGranularity, (uint)sizeof(T));
+            AllocationGranularity = size > uint.MaxValue ? uint.MaxValue : (uint)size;
         }
 
         public RingBufferMemoryManager(int sizeHint)
@@ -108,7 +115,7 @@ namespace MagicRingBuffer
             var blockCount = (bufferByteSize + AllocationGranularity - 1) / AllocationGranularity;
 
             bufferByteSize = blockCount * AllocationGranularity;
-            if (bufferByteSize > uint.MaxValue)
+            if (bufferByteSize >= uint.MaxValue)
                 Throw.ArgumentOutOfRange(nameof(bufferByteSize), bufferByteSize, "Too long buffer");
             var size = bufferByteSize / (uint)sizeof(T);
             if (size > int.MaxValue)
@@ -230,7 +237,7 @@ namespace MagicRingBuffer
         public override Span<T> GetSpan() => MemoryMarshal.CreateSpan(ref Unsafe.AsRef<T>(Ptr), (int)(_size << 1));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override MemoryHandle Pin(int elementIndex = 0) => new MemoryHandle(Ptr);
+        public override MemoryHandle Pin(int elementIndex = 0) => new MemoryHandle(Ptr + elementIndex);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void Unpin() { }
