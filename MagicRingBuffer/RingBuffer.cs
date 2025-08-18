@@ -136,7 +136,7 @@ namespace MagicRingBuffer
         public ReadOnlySpan<T> ReaderSpan
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => MemoryMarshal.CreateSpan(ref Unsafe.AsRef<T>(Ptr + _readerPos), (int)_writtenCount);
+            get => new ReadOnlySpan<T>(Ptr + _readerPos, (int)_writtenCount);
         }
 
         public ReadOnlyUnsafeChunk<T> ReaderChunk
@@ -158,9 +158,7 @@ namespace MagicRingBuffer
             {
                 var writerPos = _readerPos + _writtenCount;
                 writerPos = Math.Min(writerPos, writerPos - _size);
-                return MemoryMarshal.CreateSpan(
-                    ref Unsafe.AsRef<T>(Ptr + writerPos),
-                    (int)(_size - _writtenCount));
+                return new Span<T>(Ptr + writerPos, (int)(_size - _writtenCount));
             }
         }
 
