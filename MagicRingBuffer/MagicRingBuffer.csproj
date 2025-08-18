@@ -5,14 +5,14 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Magic Ring Buffer</Title>
-    <Version>1.2.1</Version>
+    <Version>1.2.2</Version>
     <Authors>Artem Elkin</Authors>
     <Company />
     <Product>MagicRingBuffer</Product>
     <Description>Fast ring (circular) buffer based on mapping the underlying memory segment to two contiguous regions of virtual memory.</Description>
     <PackageProjectUrl>https://github.com/artelk/MagicRingBuffer</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>ring-buffer;circular-buffer;buffer;fast;zero-copy</PackageTags>
+    <PackageTags>ring-buffer;circular-buffer;ring;circular;buffer;fast;zero-copy</PackageTags>
     <AssemblyVersion></AssemblyVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IncludeSymbols>False</IncludeSymbols>
