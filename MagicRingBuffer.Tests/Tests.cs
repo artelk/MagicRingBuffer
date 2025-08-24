@@ -1,4 +1,8 @@
-﻿namespace MagicRingBuffer.Tests
+﻿using System.Runtime.Intrinsics;
+using System.Runtime.Intrinsics.Arm;
+using System.Runtime.Intrinsics.X86;
+
+namespace MagicRingBuffer.Tests
 {
     public class Tests
     {
@@ -7,6 +11,61 @@
         static Tests()
         {
             Console.Error.WriteLine($"AllocationGranularity = {RingBuffer.AllocationGranularity}");
+            Console.Error.WriteLine($"Vector64.IsHardwareAccelerated = {Vector64.IsHardwareAccelerated}");
+            Console.Error.WriteLine($"Vector128.IsHardwareAccelerated = {Vector128.IsHardwareAccelerated}");
+            Console.Error.WriteLine($"Vector256.IsHardwareAccelerated = {Vector256.IsHardwareAccelerated}");
+            Console.Error.WriteLine($"Vector512.IsHardwareAccelerated = {Vector512.IsHardwareAccelerated}");
+            Console.Error.WriteLine($"Sse41.IsSupported = {Sse41.IsSupported}");
+            Console.Error.WriteLine($"Bmi2.X64.IsSupported = {Bmi2.X64.IsSupported}");
+            Console.Error.WriteLine($"Avx2.IsSupported = {Avx2.IsSupported}");
+            Console.Error.WriteLine($"Avx512F.IsSupported = {Avx512F.IsSupported}");
+            Console.Error.WriteLine($"Avx512F.VL.IsSupported = {Avx512F.VL.IsSupported}");
+            Console.Error.WriteLine($"Avx512BW.IsSupported = {Avx512BW.IsSupported}");
+            Console.Error.WriteLine($"AdvSimd.IsSupported = {AdvSimd.IsSupported}");
+            if (AdvSimd.IsSupported)
+            {
+                {
+                    var v = AdvSimd.MultiplyDoublingByScalarSaturateHigh(
+                        Vector64.Create<short>((1 << 13) - 1),
+                        Vector64.CreateScalarUnsafe<short>((short)((1U << 18) / 91U + 1)));
+                    v >>= 3;
+                    Console.Error.WriteLine(v.ToString());
+                }
+                {
+                    var v = AdvSimd.MultiplyDoublingByScalarSaturateHigh(
+                        Vector128.Create<short>((1 << 13) - 1),
+                        Vector64.CreateScalarUnsafe<short>((short)((1U << 18) / 91U + 1)));
+                    v >>= 3;
+                    Console.Error.WriteLine(v.ToString());
+                }
+            }
+
+            if (Sse2.IsSupported)
+            {
+                var v = Sse2.MultiplyHigh(
+                    Vector128.Create<short>((1 << 13) - 1),
+                    Vector128.CreateScalarUnsafe<short>((short)((1U << 18) / 91U + 1)));
+                v >>= 2;
+                Console.Error.WriteLine(v.ToString());
+            }
+
+            if (Avx2.IsSupported)
+            {
+                var v = Avx2.MultiplyHigh(
+                    Vector256.Create<short>((1 << 13) - 1),
+                    Vector256.CreateScalarUnsafe<short>((short)((1U << 18) / 91U + 1)));
+                v >>= 2;
+                Console.Error.WriteLine(v.ToString());
+            }
+
+            if (Avx512BW.IsSupported)
+            {
+                var v = Avx512BW.MultiplyHigh(
+                    Vector512.Create<short>((1 << 13) - 1),
+                    Vector512.CreateScalarUnsafe<short>((short)((1U << 18) / 91U + 1)));
+                v >>= 2;
+                Console.Error.WriteLine(v.ToString());
+            }
         }
 
         [SetUp]
