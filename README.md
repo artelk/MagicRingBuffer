@@ -12,7 +12,7 @@ Explanation of how it works:
 
 # Usage
 ```cs
-var buffer = new RingBuffer<uint>(1024);
+var buffer = new RingBuffer<byte>(4096);
 
 while(...)
 {
